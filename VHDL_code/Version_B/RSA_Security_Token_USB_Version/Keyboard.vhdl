@@ -23,7 +23,7 @@ Use IEEE.STD_LOGIC_UNSIGNED.ALL;
 Use IEEE.NUMERIC_STD.all;
 Use work.all;
 
-Entity knappsats is
+Entity Keyboard is
 
 	Port ( 	Row_Input 	: in 	STD_LOGIC_VECTOR (3 downto 0);
 		Col_Output	: out 	STD_LOGIC_VECTOR (3 downto 0) := (others => '1');
@@ -32,7 +32,7 @@ Entity knappsats is
 		CLK		: in 	STD_LOGIC;
 		ARESETN 	: in	STD_LOGIC
 		);
-end knappsats; 
+end Keyboard; 
 
 --This is a translator for the Keypad v3.0 to hex
 
@@ -45,7 +45,7 @@ end knappsats;
 --the RDY-bit is set high to signal valid input.
 --Any parsing besides the accepted ones gives output 0 and the RDY-bit to 0
 
-architecture Behaviour of knappsats is
+architecture Behaviour of Keyboard is
 
 signal input_debounced : STD_LOGIC_VECTOR (3 downto 0);
 signal counter : unsigned (31 downto 0) := (others => '0');

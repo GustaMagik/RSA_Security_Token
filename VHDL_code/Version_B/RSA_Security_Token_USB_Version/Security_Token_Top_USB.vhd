@@ -127,7 +127,7 @@ Signal x, y, m, r_c, s : STD_LOGIC_VECTOR(15 downto 0);
 
 signal firstpass : STD_LOGIC := '0';
 
-component knappsats 
+component Keyboard 
 	Port ( 	Row_Input 	: in 	STD_LOGIC_VECTOR (3 downto 0);
 		Col_Input_A	: out 	STD_LOGIC_VECTOR (3 downto 0) := (others => '1');
 		Output 		: out 	STD_LOGIC_VECTOR (3 downto 0) := (others => '0');
@@ -295,7 +295,7 @@ SCREEN: LCD port map (
 
 		);
 
-KBD : knappsats port map (
+KBD : Keyboard port map (
 		Row_Input => Hex_in,
 		Col_Input_A => Hex_out,
 		Output => In_data,
