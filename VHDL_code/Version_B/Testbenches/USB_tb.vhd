@@ -34,7 +34,7 @@ end USB_tb;
 
 Architecture behavioral of USB_tb is
 
-constant BAUD_RATE : integer := 9600; --baud of 115200
+constant BAUD_RATE : integer := 115200; --baud of 115200
 constant CLOCK_RATE : integer := 100_000_000; --100MHz (10 ns)
 
 
