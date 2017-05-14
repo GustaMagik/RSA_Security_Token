@@ -43,7 +43,7 @@ architecture Behavioral of RXD_Controller is
 	signal bit_counter : integer range 0 to 8 := 0;
 	signal middle	: STD_LOGIC;
 	signal over_sampling_done : STD_LOGIC := '0';
-	signal SAMPLE_COUNTER : unsigned (7 downto 0) := (others => '0');
+	signal SAMPLE_COUNTER : integer := 0;
 	signal SAMPLE_COUNT : integer range 0 to OVERSAMPLES;
 	signal SAMPLE_NOW : STD_LOGIC;
 begin
@@ -61,18 +61,18 @@ oversampler: process (CLK)
 		over_sampling_done <= '0'; --Default is that the sampling is not done
 		middle <= '0'; --Default is that the sample is NOT the middle one
 			if RESET = '1' then --If reset signal
-				SAMPLE_COUNTER <= (others => '0');
+				SAMPLE_COUNTER <= 0;
 				SAMPLE_COUNT <= 0;--reset counter
 			elsif STATE = IDLE then
-				SAMPLE_COUNTER <= (others => '0'); 
+				SAMPLE_COUNTER <= 0; 
 				SAMPLE_COUNT <= 0;
 			--If not reset perform standard behaviour	
 			elsif STATE /= IDLE then --We need sampling in every state but IDLE
-				CURRENT_SAMPLE_COUNTER := to_integer(SAMPLE_COUNTER);
+				CURRENT_SAMPLE_COUNTER := SAMPLE_COUNTER;
 				if CURRENT_SAMPLE_COUNTER < RATE_OF_SAMPLING then --If less than the sampling rate we are to increase the counter
 					SAMPLE_COUNTER <= SAMPLE_COUNTER + 1;
 				else --otherwise we put SAMPLE_NOW to high and reset the counter
-					SAMPLE_COUNTER <= (others => '0');
+					SAMPLE_COUNTER <= 0;
 					SAMPLE_NOW <= '1';
 					SAMPLE_COUNT <= SAMPLE_COUNT + 1; --count which sample it was
 					--count the amount of samples done and when the 4th is done 
