@@ -1,3 +1,21 @@
+
+--Copyright 2017 Christoffer Mathiesen
+--Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+--
+--1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+--
+--2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the 
+--documentation and/or other materials provided with the distribution.
+--
+--3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this 
+--software without specific prior written permission.
+--
+--THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+--THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS
+--BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+--GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+--LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_unsigned.all;
@@ -12,9 +30,12 @@ end RSA_512_tb;
 --for it to work
 --The original can be found in the folder containing the RSA_512 code
 
---The tb is self-testing
+--The tb is self-testing. If you want to check exponent- modulo- and r_c values of your own, you can freely insert them
+--instead of the ones there currently. Take note that you'll have to MANUALLY calculate the result of the
+--encryption of ( message_1^exponent_1 ) mod modulo_1
+--Useful tool to do just that can be found at http://www.mobilefish.com/services/big_number_equation/big_number_equation.php#equation_output
 
---The tb will take about 1.2 ms of simulation time
+--The tb will take about 1.2 ms of in-simulation time. Be patient
 
 architecture behavior of RSA_512_tb is
 

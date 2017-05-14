@@ -1,3 +1,22 @@
+
+--Copyright 2017 Christoffer Mathiesen
+--Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+--
+--1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+--
+--2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the 
+--documentation and/or other materials provided with the distribution.
+--
+--3. Neither the name of the copyright holder nor the names of its contributors may be used to endorse or promote products derived from this 
+--software without specific prior written permission.
+--
+--THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
+--THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS
+--BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
+--GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT 
+--LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.STD_LOGIC_UNSIGNED.all;
@@ -6,6 +25,14 @@ use IEEE.NUMERIC_STD.all;
 
 Entity USB_tb is
 end USB_tb;
+
+--This testbench shows a simple write request followed up by a read request.
+--The data is not encrypted in this tb
+--The tb is self-testing, but the main purpose of it is to make
+--waveforms so that you can check your own implementation
+--It should be possible to use this code for testing if other frequencies/baud rates
+--are faulty.
+
 
 Architecture behavioral of USB_tb is
 
@@ -40,6 +67,8 @@ Component mem_array is
 	);
 end component;
 
+constant CLOCK_RATE : integer := 100_000_000;
+constant BAUD_RATE : integer := 115200;
 
 constant ASCII_ASTERISK : STD_LOGIC_VECTOR(7 downto 0) := x"2A"; 	--*
 constant ASCII_B : STD_LOGIC_VECTOR(7 downto 0) := x"42";		--B
@@ -53,8 +82,8 @@ constant ASCII_M : STD_LOGIC_VECTOR(7 downto 0) := x"4D";		--M
 constant ASCII_I : STD_LOGIC_VECTOR(7 downto 0) := x"49";		--I
 constant ASCII_T : STD_LOGIC_VECTOR(7 downto 0) := x"54";		--T
 
-constant clk_period : time := 10 ns;
-constant bit_period : time := clk_period*868;
+constant clk_period : time := (1/CLOCK_RATE) sec;
+constant bit_period : time := clk_period*CLOCK_RATE/BAUD_RATE;
 
 
 signal bool : boolean := true;
