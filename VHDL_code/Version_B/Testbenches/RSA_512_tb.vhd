@@ -35,7 +35,7 @@ end RSA_512_tb;
 --encryption of ( message_1^exponent_1 ) mod modulo_1
 --Useful tool to do just that can be found at http://www.mobilefish.com/services/big_number_equation/big_number_equation.php#equation_output
 
---The tb will take about 1.2 ms of in-simulation time. Be patient
+--The tb will take about 0.6 ms of in-simulation time. Be patient
 
 architecture behavior of RSA_512_tb is
 
@@ -60,9 +60,9 @@ architecture behavior of RSA_512_tb is
   --constants (values to test)
   constant sanity_check : std_logic_vector(511 downto 0) := x"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001";--RSA with val 1 should always result in 1
   constant message_1    : std_logic_vector(511 downto 0) := x"abc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abcabc123abc123abc123abc123abc123abc123abc123abc123abc123abc123abc12";
-  constant exponent_1   : std_logic_vector(511 downto 0) := x"b1_5f_20_09_4a_5f_bc_d7_60_5b_23_bb_7d_be_7d_42_15_56_df_00_d2_66_c6_49_d0_19_cf_c8_7e_ae_54_3f_70_3f_68_70_01_38_51_13_0d_3a_2e_d9_93_ef_76_a1_c3_77_a9_6b_95_fe_32_6f_73_26_a3_19_ba_e5_fe_01"; --encrypt exponent
+  constant exponent_1   : std_logic_vector(511 downto 0) := x"b15f20094a5fbcd7605b23bb7dbe7d421556df00d266c649d019cfc87eae543f703f6870013851130d3a2ed993ef76a1c377a96b95fe326f7326a319bae5fe01"; --encrypt exponent
   constant exponent_2   : std_logic_vector(511 downto 0) := x"00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001"; --decrypt exponent
-  constant modulo_1     : std_logic_vector(511 downto 0) := x"bb_84_7f_2d_87_e8_03_09_26_ee_a2_a0_a3_f8_98_77_e6_f6_3c_1e_2f_65_f3_79_1e_9c_85_54_9f_48_86_3a_1d_cc_9f_8b_47_7c_36_df_ea_25_73_c4_9f_c5_92_59_ef_e8_3b_99_96_d0_93_b4_be_09_66_6e_90_4c_b1_7f";
+  constant modulo_1     : std_logic_vector(511 downto 0) := x"bb847f2d87e8030926eea2a0a3f89877e6f63c1e2f65f3791e9c85549f48863a1dcc9f8b477c36dfea2573c49fc59259efe83b9996d093b4be09666e904cb17f";
   constant R_C_1        : std_logic_vector(511 downto 0) := x"8F80651391C778113C509FDD5C205AE6648A94DBC225A1ECA53F149BCF135AFCAC7E47DF209AC030325E1904AD7D260E236CE56D6753F488E3E489D50A6C2B0E";
   
   constant result_1     : std_logic_vector(511 downto 0) := x"AF42E73EE103ED7F96C40FB6FC14B483031239E4FC813C30B208C68042C9E08789E5D22E59163194498D3DB158AC6F5282943D81D5E59F518086A19BC0B33D9D";--result encrypting message_1
@@ -110,7 +110,7 @@ architecture behavior of RSA_512_tb is
         start_in <= '1';
         wait for clk_period;
         start_in <= '0';
-        wait for clk_period*6;
+        wait for clk_period*7;
 
     end procedure reset_circuit;
   
@@ -189,7 +189,7 @@ begin
                   m         => m
                   );
     --Have a sanity check with the value 1. 
-     for I in 0 to 1 loop --do twice
+
                for J in 0 to 31 loop
          valid_in <= '1';
          x <= sanity_check(16*J+15 downto 16*J);
@@ -206,14 +206,14 @@ begin
      for J in 0 to 31 loop 
          
          wait for clk_period;
-         if I = 1 then
+
          result(16*J+15 downto 16*J) <= s;
-         end if;
+
      end loop;
 
      wait for clk_period * 10;
      wait for clk_period/2;
-    end loop;
+
 
     assert result = sanity_check
         report "The encrypted value was not 1 after encryption. Something is very wrong! Double check the validity of the Exponent, Modulo and R_C values"
@@ -228,7 +228,6 @@ begin
                   );
                   
     --Try to encrypt the message message_1. 
-    for I in 0 to 1 loop --do twice
                for J in 0 to 31 loop
          valid_in <= '1';
          x <= message_1(16*J+15 downto 16*J);
@@ -245,14 +244,13 @@ begin
      for J in 0 to 31 loop 
          
          wait for clk_period;
-         if I = 1 then
          result(16*J+15 downto 16*J) <= s;
-         end if;
+
      end loop;
 
      wait for clk_period * 10;
      wait for clk_period/2;
-    end loop;
+
             
                 
     assert result = result_1
@@ -268,7 +266,7 @@ begin
                   );
                   
     --Try to decrypt the result from previous. 
-    for I in 0 to 1 loop --do twice
+
                for J in 0 to 31 loop
          valid_in <= '1';
          x <= result(16*J+15 downto 16*J);
@@ -285,14 +283,12 @@ begin
      for J in 0 to 31 loop 
          
          wait for clk_period;
-         if I = 1 then
          result(16*J+15 downto 16*J) <= s;
-         end if;
+
      end loop;
 
      wait for clk_period * 10;
      wait for clk_period/2;
-    end loop;
 
  
     assert result = message_1

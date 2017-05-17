@@ -125,7 +125,6 @@ Signal LCD_INPUT_SELECT : LCD_SELECT := SELECT_ROM;
 Signal valid_in, start_in, valid_out : STD_LOGIC;
 Signal x, y, m, r_c, s : STD_LOGIC_VECTOR(15 downto 0);
 
-signal firstpass : STD_LOGIC := '0';
 
 component Keyboard 
 	Port ( 	Row_Input 	: in 	STD_LOGIC_VECTOR (3 downto 0);
@@ -239,7 +238,6 @@ signal RSA_X : STD_LOGIC_VECTOR (511 downto 0);
 
 signal RESETN, soft_reset : STD_LOGIC;
 
-signal secondpass : std_logic := '0';
 signal timeout_timer : integer := 0;
 
 --signal clk, tog : std_logic;
@@ -376,8 +374,7 @@ begin
 			READY_FOR_DATA <= '0';
 			soft_reset <= '0';
 			timeout_timer <= 0;
-			firstpass <= '1';
-			secondpass <= '0';
+
 		else
 
 	
@@ -528,7 +525,7 @@ begin
 						READY_FOR_DATA <= '0';
 						STATE <= RSA;
 						flag <= '0';
-						firstpass <= '1';
+		
 						
 					end if;
 				
@@ -549,16 +546,14 @@ begin
 						end if;
 					end if;
 					
-					--Because of a weird bug in RSA_512, we have to perform the encrytion twice.
-					--Hey! Don't ask why! I'm just using it! Even their own testbench has this
-					--odd behaviour!
+						
 						if RSA_WORD = 32 then
 							valid_in <= '0';
 						end if;					
 					if flag = '0' then --The loading of the RSA module
-						if RSA_MEM_ADDR < 31-7 then --preload the n_c value for the RSA init-sequence
+						if RSA_MEM_ADDR < 31-8 then --preload the n_c value for the RSA init-sequence
 							m(15 downto 0) <= RSA_M(15 downto 0);
-						elsif RSA_MEM_ADDR = 31 - 7 then --Start the init-sequence when half-6 bytes are loaded to the register
+						elsif RSA_MEM_ADDR = 31 - 8 then --Start the init-sequence when half-6 bytes are loaded to the register
 							start_in <= '1';
 						elsif RSA_MEM_ADDR <= 31 then --Set the flag low again and wait for 6 cycles
 							start_in <= '0';
@@ -591,13 +586,8 @@ begin
 						
 					else --Writing to memory
 						
-						if firstpass = '1' then --If it was the first pass, we need to send in the data again
-							state <= RSA_2;
-							secondpass <= '0';
-							RSA_BYTE <= 0;
-							RSA_WORD <= 0;
 						
-						elsif RSA_WORD < 32 AND valid_out = '1' then --if not the final byte from RSA_512 result (s)
+						if RSA_WORD < 32 AND valid_out = '1' then --if not the final byte from RSA_512 result (s)
 							RSA_X(RSA_WORD*16+15 downto RSA_WORD*16) <= s; --save it in the register
 							RSA_WORD <= RSA_WORD + 1; --inc the pointer
 							input_counter <= (others => '0');
@@ -622,38 +612,6 @@ begin
 						end if;
 					end if;
 					
-					
-				when RSA_2 =>
-				
-					
-					if valid_out = '1' then
-						secondpass <= '1';
-					elsif secondpass = '1' then
-						if RSA_BYTE < 50 then --Give some time after the "valid" data is done to let the RSA module be ready for data again
-							RSA_BYTE <= RSA_BYTE + 1;
-						elsif RSA_WORD < 32 then
-						
-							x <= RSA_X(RSA_WORD*16+15 downto RSA_WORD*16);		--Message value
-							y <= RSA_E(RSA_WORD*16+15 downto RSA_WORD*16);		--Key value
-							m <= RSA_M(RSA_WORD*16+15 downto RSA_WORD*16);		--Modulo value
-							r_c <= RSA_R_C(RSA_WORD*16+15 downto RSA_WORD*16);	--R_C value
-						
-							valid_in <= '1'; --Valid data in flag
-							
-							RSA_WORD <= RSA_WORD + 1; --inc the pointer
-							
-						elsif RSA_BYTE = 50 and RSA_WORD = 32 then
-                            valid_in <= '0';
-				--			if RDY = '1' then
-							state <= RSA;
-							RSA_BYTE <= 0;
-							RSA_WORD <= 0;
-							firstpass <= '0';
-
-							flag <= '1';
-						--	end if;
-						end if;
-					end if;
 -----------------------------------------------------------------------------------------------------					
 				
 				when PRINT_MSG_2 =>
