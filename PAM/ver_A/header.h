@@ -26,7 +26,7 @@
 // These can be changed (if you know what you're doing)
 #define CLEARTEXT_LEN 6 //Hexchars
 #define KEY_LEN_BYTE  9	//Blocks of 8-bit
-#define KEY_LEN_6BIT  12	//KEY_LEN_BYTE*(8/6) //Blocks of 6-bit
+#define KEY_LEN_6BIT  KEY_LEN_BYTE*(8/6) //Blocks of 6-bit
 /* ---- GLOBAL VARS ---- */
 
 
