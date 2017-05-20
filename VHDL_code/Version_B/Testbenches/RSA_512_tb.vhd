@@ -25,9 +25,7 @@ entity RSA_512_tb is
 end RSA_512_tb;
 
 --This is an improved version of the tb from the original creators of 
---RSA_512. It's also taking heed to the bug that makes it
---a requirement to pass in the same arguments TWICE
---for it to work
+--RSA_512. 
 --The original can be found in the folder containing the RSA_512 code
 
 --The tb is self-testing. If you want to check exponent- modulo- and r_c values of your own, you can freely insert them
