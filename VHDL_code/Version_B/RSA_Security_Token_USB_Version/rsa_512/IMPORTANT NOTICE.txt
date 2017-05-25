@@ -1,0 +1,5 @@
+Important:
+
+The RSA_512 documentation and original TB states that the setup time is 6 cycles, but with later versions of Xilinx IP-core generator this is wrong
+
+Instead a setup time of minimum 7 cycles are needed.
