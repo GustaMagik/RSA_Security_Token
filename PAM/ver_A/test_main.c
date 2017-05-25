@@ -1,13 +1,14 @@
 /*
- * beerware eliot roxbergh 
+ * License BSD, see pam_module.c
 */
 
+/*
+ * Just an ugly debug for running Valgrind
+ * for more info see ./script/run_test.sh
+*/ 
 
-
-//#define PAM_SM_AUTH
 
 #include "header.h"
-
 
 int main(int argc, char **argv){
 	//if (argc != 2) {printf("Enter ONE input");return 1;}
@@ -23,8 +24,8 @@ int main(int argc, char **argv){
 
 	free(msgPrompt);
 
-	char* userInputt = malloc(100);
-	strcpy(userInputt, "testingonly\0");
+	char* userInputt = malloc(14);
+	strcpy(userInputt, "QB5jjpsmzKFB\0");
 
   // Decrypt user input see if same
   int strCompared = check_userInput(userInputt);

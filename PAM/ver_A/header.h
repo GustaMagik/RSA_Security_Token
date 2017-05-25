@@ -24,11 +24,10 @@
 
 /* ---- GLOBAL VARS ---- */
 // These can be changed (if you know what you're doing)
-#define CLEARTEXT_LEN 6 //Hexchars
-#define KEY_LEN_BYTE  9	//Blocks of 8-bit
-#define KEY_LEN_6BIT  12	//KEY_LEN_BYTE*(8/6) //Blocks of 6-bit
+#define CLEARTEXT_LEN 6  //Hexchars
+#define KEY_LEN_BYTE  9	 //Blocks of 8-bit
+#define KEY_LEN_6BIT  12 //Blocks of 6-bit ( KEY_LEN_BYTE*(8/6) )
 /* ---- GLOBAL VARS ---- */
-
 
 
 // ----  DO NOT CHANGE ----------------------------------
@@ -40,8 +39,9 @@ static const int ciphertextLen = KEY_LEN_6BIT;
 // Amount of hex chars to generate (entered on 2-fa device)
 static const int cleartextLen = CLEARTEXT_LEN; // chars = bytes
  
-// Random hex generated
+// Random hex generated (data 8bit not 4bit hex -> len/2)
 // Checked by verify_rsa to ensure signed message is correct
+// Note: these are NOT printable characters
 unsigned char randData_orig[(CLEARTEXT_LEN/2+1)];
 // ----  DO NOT CHANGE ----------------------------------
 
@@ -52,11 +52,17 @@ unsigned char randData_orig[(CLEARTEXT_LEN/2+1)];
 // ___________________________
 // data_parser.c
 
-/* */
-char* ascii_parser(char* input);
+/* asciiToBin
+ *
+ * Recieves sanitized input (orginating from device)
+ * and encodes to binary 6-bit blocks
+ *  returns string with 1s and 0s
+ */
+char* asciiToBin(char* input);
 
 
-/*
+/* binToChar
+ *
  * Takes a string with 'binary' e.g. "1010011"
  * THE INPUT DATA MUST BE BYTE (bits divisable by 8)
  * 	("1" != "\1")
@@ -68,57 +74,90 @@ char* ascii_parser(char* input);
 unsigned char* binToChar(char* dataBinary);
 
 
-/* convert from hex to ascii */
-char* hexToAscii(char* input);
+/* hexToAscii
+ *
+ * convert from hex to ascii
+ * 	where hex is stored as printable chars ..,'9','A',..
+ */
+char* hexToAscii(unsigned char* input);
 
-/* string sanitizer before ascii_parser */
+
+/* strSanitizer
+ *
+ * Sanitize and length check string 
+ * safer, without assuming null terminated '\0'
+ * adds zeroes (from left) or null terminates to correct length
+ * (ran before asciiToBin) */
 char* strSanitizer(char* inputStr);
-
-
 
 // ___________________________
 // crypto.c 
 
-/*
- * 
- * takes a string with 'binary' e.g. "1010011"
- * 
- * (Note: "1" != "\1")
+/* public_decrypt
+ *
+ * raw data -> raw data 
+ * decrypts with local PUBLIC key
  */
 const unsigned char* public_decrypt(const unsigned char*);
 
-// Decrypt string and compare with randData_hexStr_orig
-// using private.pam local file
-// returns 0 if success
+/* verify_rsa
+ *
+ * compare cleartext to global variable randData_orig
+ * 	both are raw data (not hex)
+ * returns 0 if success
+ */
 int   verify_rsa(const unsigned char*);
 
 
 // ___________________________
 //Used in file pam_helper.c
 
-/* Token output format -> raw data */
+/* userInput_to_data
+ *
+ * Token output format -> raw data
+ * (calls strSanitizer, asciiToBin and binToChar)
+ * any length / "infinite" -> KEY_LEN_BYTE length
+ */
 unsigned char* userInput_to_data(char*);
 
-/* Sanitize, convert and verify (decrypt) - user input (from token)
+/* check_userInput
+ *
+ * Sanitize, convert and verify (decrypt) - user input (from token)
+ * (calls userInput_to_data and public_decrypt)
  * ciphertext -> int
- * 0 = sign successful */
+ * 0 = sign successful, else 1
+ */
 int check_userInput(char*);
 
-/* Generates random hex sequence for two-factor device
+/* genNumber_raw
+ *
+ * Generates random hex sequence for two-factor device
+ * In bytes, cleartextLen/2 long (+ 1 Byte, null termination)
+ *
  * void -> Random raw data 
- * In bytes, cleartextLen/2 long (+null termination) */
+ * utilizes <openssl/rand.h>
+ */
 unsigned char* genNumber_raw(void);
 
-/* calls genNumber and converts each byte to 2 hex chars
+
+/* genNumber_hexStr
+ *
+ * generates cleartextLen random chars (+ 1 Byte, null termination
+ * 	converts each byte (data) to 2 hex (printable chars)
+ *
  * void -> Random hex chars
- * cleartextLen hex chars (+null termination) */
-char*					 genNumber_hexStr(void);
+ * (calls genNumber_raw, hexToAscii)
+ */
+char*	genNumber_hexStr(void);
 
 
-/* reverse unsigned string
- * (used on hexStr because FPGA memory handling) */
+/* reverseStr
+ *
+ * reverse unsigned string (e.g. raw data)
+ * (used on hexStr because FPGA memory handling)
+ * Note: reverse byte-wise, i.e. once per hex-PAIR
+ */
 unsigned char* reverseStr(unsigned char*);
-
 
 
 // ___________________________
@@ -127,7 +166,7 @@ unsigned char* reverseStr(unsigned char*);
 /* The PAM module code (it uses existing PAM functions) */
 /* Does ONLY verify token response, */
 /* please use pam_unix to check user credentials in unix. */
-/* See provided pam config files! */
+/* See provided pam config files (!) for examples.  */
 
 
 #endif

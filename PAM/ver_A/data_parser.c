@@ -18,16 +18,17 @@
 #include "header.h"
 #include <stdbool.h>
 
-/*  ascii_parser recieves input (chars from device) and encodes to binary 6-bit blocks
- *  returns string with 1s and 0s */
-char* ascii_parser(char* input) {
+/*
+ * using global variables:
+ *  static const int ciphertextLen
+ */
+char* asciiToBin(char* input) {
   char c = input[0];
   char* parsedInput = malloc(ciphertextLen+1);
   char* parsedBinInput = malloc(ciphertextLen*6+1);
   int i = 0;
   
   while (c != '\0') {
-    //printf("%c\n", c);
     if (c >= '0' && c <= '9') {
       c = c - 48;
     } else if (c >= 'A' && c <= 'Z') {
@@ -36,10 +37,15 @@ char* ascii_parser(char* input) {
       c = c - 60;
     } else if (c == '!') {
       c = 36;
-    } else {
+    } else if (c == '"'){
       c = 63;
-    } 
-    parsedInput[i] = c;
+    } else { //should not happen
+			printf("\n\n User input ERROR!\n");
+			printf("Interpreting character as '0'\n");
+			printf("\n(will probably fail, try again)\n");
+			c = 48;
+		} 
+		parsedInput[i] = c;
     int k;
     int l = 0;
 
@@ -73,7 +79,7 @@ unsigned char* binToChar(char* dataBinary){
 		//inner loop every bit in block (0 to 7)
 		for(bit=0; bit<8; bit++){
 		  
-			if( dataBinary[bit+8*block] == '\0'){
+			if(dataBinary[bit+8*block] == '\0'){
 				break;
 			}
 			// binary '1' to int (2^n)
@@ -81,7 +87,7 @@ unsigned char* binToChar(char* dataBinary){
 				tmp = tmp + (int) pow(2, 7-bit);
 			}
 		} //end of inner loop
-
+		
 		//save completed block total
 		dataChar[block] =(char) tmp; 
 	} //end of outer loop
@@ -89,9 +95,15 @@ unsigned char* binToChar(char* dataBinary){
 	return(dataChar);
 }
 
-char* hexToAscii(char* input) {
+
+/*
+ * using global variables:
+ *  static const int cleartextLen
+ */
+char* hexToAscii(unsigned char* input) {
   int i;
-  char c;
+  unsigned char c;
+	//NOTE unsigned char -> char*, if problems arise
   char* randDataAscii = malloc(cleartextLen+1);
   for (i = 0; i < cleartextLen; i++) {
     c = input[i];
@@ -101,39 +113,29 @@ char* hexToAscii(char* input) {
       randDataAscii[i] = c + 55;
     } else {
 			// ERROR, should never be here
-    	//TODO cast error? return PAM fail?
+			printf("\n\n User input ERROR!\n");
+			printf("Interpreting character as '0'\n");
+			printf("\n(will probably fail, try again)\n");
+    	c = 48;
 		}
-  }
-
+  }	
+	free(input);
   randDataAscii[cleartextLen] = '\0';
-  return randDataAscii;
-}
-
-char* strSanitizer_unsafe(char* userInput) {
-  char* strSanitized = malloc(cleartextLen+1);
-  int len = strlen(userInput);
-
-  if (len < cleartextLen) {
-    int i;
-    for (i = 0; i < cleartextLen-len; i++) {
-      strSanitized[i] = '0';
-    }
-    for (i = cleartextLen-len; i < cleartextLen; i++) {
-      strSanitized[i] = userInput[i-cleartextLen-len];
-    }
-    strSanitized[cleartextLen] = '\0';
-    return strSanitized;
-  } else if (len > cleartextLen) {
-    userInput[cleartextLen] = '\0';
-  }
-  return userInput;
-}
-
-/* Sanitize and length check string 
- * safer, without assuming null terminated '\0'
- * adds zeroes (from left) or null terminates to make sure correct length */
-char* strSanitizer(char* inputStr){
+  
+	/*
+	// ------- DEBUG -------
+	// printf("\nhexToAscii: %s\n",randDataAscii);
+	// ------- DEBUG -------
+	*/
 	
+	return randDataAscii;
+}
+
+/*
+ * using global variables:
+ *  static const int ciphertextLen
+ */
+char* strSanitizer(char* inputStr){	
 	char* inputStr_clean = malloc(ciphertextLen+1);
 	char* tmpStr = malloc(ciphertextLen+1);
 
@@ -174,3 +176,4 @@ char* strSanitizer(char* inputStr){
 	free(tmpStr);
 	return inputStr_clean;
 }
+
