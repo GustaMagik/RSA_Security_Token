@@ -40,9 +40,9 @@ char* asciiToBin(char* input) {
     } else if (c == '"'){
       c = 63;
     } else { //should not happen
-			printf("\n\n User input ERROR!\n");
-			printf("Interpreting character as '0'\n");
-			printf("\n(will probably fail, try again)\n");
+			fprintf(stderr,"\n\n User input ERROR!\n");
+			fprintf(stderr,"Interpreting character as '0'\n");
+			fprintf(stderr,"\n(will probably fail, try again)\n");
 			c = 48;
 		} 
 		parsedInput[i] = c;
@@ -113,9 +113,9 @@ char* hexToAscii(unsigned char* input) {
       randDataAscii[i] = c + 55;
     } else {
 			// ERROR, should never be here
-			printf("\n\n User input ERROR!\n");
-			printf("Interpreting character as '0'\n");
-			printf("\n(will probably fail, try again)\n");
+			fprintf(stderr, "\n\n User input ERROR!\n");
+			fprintf(stderr, "Interpreting character as '0'\n");
+			fprintf(stderr, "\n(will probably fail, try again)\n");
     	c = 48;
 		}
   }	

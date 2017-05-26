@@ -72,9 +72,9 @@ unsigned char* genNumber_raw(void) {
 	//randData fills with random data
 	while(RAND_bytes(randData, (cleartextLen/2)) != 1 ){
 		//RAND_bytes failed (UNLIKELY!)
-		printf("\nRandom data generation fail!\n");
+		fprintf(stderr,"\nRandom data generation fail!\n");
 		sleep(1); //second
-		printf("Retrying..\n");
+		fprintf(stderr,"Retrying..\n");
 		sleep(1);
 	}
 

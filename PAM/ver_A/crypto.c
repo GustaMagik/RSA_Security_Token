@@ -16,6 +16,7 @@
 #include <openssl/pem.h>
 #include <openssl/rsa.h>
 #include "header.h"
+#include <unistd.h>
 
 /* IMPORTANT!
  * Change public_key_file to your public.pem file
@@ -24,38 +25,62 @@
 char *public_key_file = "/home/user/Desktop/koddosa_git/koddosa/PAM_directory/ver_A/data/public.pem";
 
 const unsigned char* public_decrypt(const unsigned char* ciphertext){
-  int rsa_inLen = KEY_LEN_BYTE; //strlen((char*) ciphertext);
-	FILE *fp0 = fopen(public_key_file, "r");
+ 	unsigned char * cleartext;
 
-	/* init RSA struct and read public key */
-	RSA *rsa;
-	rsa = PEM_read_RSAPublicKey(fp0, NULL, NULL, NULL);
-	fclose(fp0);
+	if( access(public_key_file, R_OK) == -1 ) {
+		fprintf(stderr, "\nCannot read public key:\n '%s'\n", public_key_file);
 
-	int rsaSize = RSA_size(rsa);
-	unsigned char * cleartext = malloc(rsaSize+1);
+		//To avoid seg fault, return zeroed cleartext
+		cleartext = malloc(keyLen+1); //unsigned char* 
+		int i;
+		for(i=0; i < (keyLen);	i++){
+			cleartext[i] = '0';
+		}
+		cleartext[keyLen] = '\0';
+	}
+
+	else {
+		// file is readable
 	
-  RSA_public_decrypt(
-		rsa_inLen, ciphertext, cleartext,
-		rsa, RSA_NO_PADDING
-	);
+		int rsa_inLen = KEY_LEN_BYTE; //strlen((char*) ciphertext);
+		FILE *fp0 = fopen(public_key_file, "r");
 
-	cleartext[rsa_inLen] = '\0';
+		/* init RSA struct and read public key */
+		RSA *rsa;
+		rsa = PEM_read_RSAPublicKey(fp0, NULL, NULL, NULL);
+		fclose(fp0);
 
-	/*
-	// ------- DEBUG -------
-	//Print error
-	unsigned long errorCode = (unsigned long) ERR_peek_last_error();
-	char error[500];
-	ERR_error_string_n((unsigned long) errorCode
-										 ,(char *) error, (size_t) 500);
-	printf("\n%s", error);
- 	openssl errstr errorCode
-	// ------- DEBUG -------
-	*/
+		int rsaSize = RSA_size(rsa);
+		cleartext = malloc(rsaSize+1); //unsigned char*
 
-	//clear key from memory
-	RSA_free(rsa);
+	
+	  int ret = RSA_public_decrypt(
+			rsa_inLen, ciphertext, cleartext,
+			rsa, RSA_NO_PADDING
+		);
+
+		if(ret == -1){
+			fprintf(stderr, "Decryption fail!\n Make sure dependencies are met and correct input\n");
+		}
+		cleartext[rsa_inLen] = '\0';
+	
+		/*
+		// ------- DEBUG -------
+		//Print error
+		unsigned long errorCode = (unsigned long) ERR_peek_last_error();
+		char error[500];
+		ERR_error_string_n((unsigned long) errorCode
+											 ,(char *) error, (size_t) 500);
+		printf("\n%s", error);
+ 		openssl errstr errorCode
+		// ------- DEBUG -------
+		*/
+	
+		//clear key from memory
+		RSA_free(rsa);
+	
+	} // end of IF-statement
+	
 	return cleartext;
 }
 
