@@ -1,5 +1,5 @@
 # RSA_Security_Token
-A Security token system for Linux PAM using an FPGA. Either utilizing up to 72-bit or up to 512-bit RSA cryptography when using Version A and B respectivly. Version B is also utilizing USB UART communication. These implementations provide two-factor authentication for any PAM-aware application. Fully working prototypes. BSD-3 licenced.
+A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 512-bit RSA cryptography when using Version A and B respectivly. Version B is utilizing USB UART communication, while version B is air-gapped. These implementations provide two-factor authentication for any PAM-aware application. Fully working prototypes. BSD-3 licenced.
 
 HOW TO USE:
 
@@ -11,7 +11,7 @@ Dependencies:
 
 On RedHat/CentOS:
 
-	The compiled module (pam_cthAuth.so) should be placed in /lib64/security and included in the PAM configuration file (in /etc/pam.d/) for each application that should use the token.
+	The compiled module (pam_cthAuth.so) should be placed in /lib64/security. The compiled file should be included in the PAM configuration file (in /etc/pam.d/), for each application that should use the token.
 
 	Example configuration files are included in this repository, e.g. system-auth.
 
@@ -49,7 +49,7 @@ Setup:
 
 2. Use the script create_rsa_files.sh to generate your keys. If you have already done this in the setup of the software side, skip this step.
 
-3. Use the values in file private_key.txt and replace the respctive value in the generics at the top of the file of the version specific Security_Token_Top vhdl file. Note that all characters ':' has to be removed in the value.
+3. Use the values in file private_key.txt and replace the respective value in the generics at the top of the file of the version specific Security_Token_Top vhdl file. Note that all characters ':' has to be removed in the value.
 
 	3b. In the case of Version B, the R_C value has to be calculated. From the original RSA_512 documentation: 
 
@@ -61,7 +61,7 @@ Setup:
 
 	This value can be calculated manually (use http://www.mobilefish.com/services/big_number_equation/big_number_equation.php) or the C program constant_gen.c located at RSA_Security_Token\VHDL_code\Version_B\RSA_Security_Token_USB_Version\rsa_512\trunk\src can be used. 
 
-	3c. In the case of Version B, it is recommended that the RSA keyes and R_C values are tested with the included test bench RSA_512_tb. Note that you will have to manually calculate what the result of signing the message with your chosen keyes should be (use http://www.mobilefish.com/services/big_number_equation/big_number_equation.php) for the self-test functionallity to work correctly in stage 2
+	3c. In the case of Version B, it is recommended that the RSA keys and R_C values are tested with the included test bench RSA_512_tb. Note that you will have to manually calculate what the result of signing the message with your chosen keyes should be (use http://www.mobilefish.com/services/big_number_equation/big_number_equation.php) for the self-test functionallity to work correctly in stage 2
 
 4. Set up other misc. generics to your specific needs
 
