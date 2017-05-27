@@ -14,17 +14,14 @@ yum update
 yum upgrade -y
 yum install openssl-devel -y
 yum install pam-devel.x86_64 -y
-#yum install libghc-pem-dev libgnutls-openssl openssl -y;
 
-#cd source
-#chmod u+x get_ready.sh
-#./get_ready.sh
-#cd ..
-cp etc/* /etc/ -Rv
+#yum install libghc-pem-dev libgnutls-openssl openssl -y;
+#cp etc/* /etc/ -Rv
+
+exit
 
 echo; echo; echo "##################"
 echo "IMPORTANT\!"
 echo "Choose the version to use and run its 'get_ready.sh'"
 echo "##################"; echo
 
-exit
