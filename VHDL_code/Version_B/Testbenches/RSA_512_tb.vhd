@@ -33,11 +33,11 @@ end RSA_512_tb;
 --encryption of ( message_1^exponent_1 ) mod modulo_1
 --Useful tool to do just that can be found at http://www.mobilefish.com/services/big_number_equation/big_number_equation.php#equation_output
 
---The tb will take about 0.6 ms of in-simulation time. Be patient
+--The tb will take about 0.6 ms of in-simulation time.
 
 architecture behavior of RSA_512_tb is
 
-  -- Component Declaration for the Unit Under Test (UUT) 
+  -- Component Declaration 
 
   component rsa_top
     port(
@@ -69,18 +69,18 @@ architecture behavior of RSA_512_tb is
   signal clk       : std_logic                     := '1';
   signal reset     : std_logic                     := '0';
   signal valid_in  : std_logic                     := '0';
-  signal start_in  : std_logic;
+  signal start_in  : std_logic                     := '0';
   signal x         : std_logic_vector(15 downto 0) := (others => '0');
   signal y         : std_logic_vector(15 downto 0) := (others => '0');
   signal m         : std_logic_vector(15 downto 0) := (others => '0');
   signal r_c       : std_logic_vector(15 downto 0) := (others => '0');
-  signal n_c       : std_logic_vector(15 downto 0) := (others => '0');
   signal bit_size  : std_logic_vector(15 downto 0) := x"0200";
   
-  signal result    : std_logic_vector(511 downto 0) := (others => '0');
+
   --Outputs 
   signal s         : std_logic_vector(15 downto 0);
   signal valid_out : std_logic;
+  signal result    : std_logic_vector(511 downto 0) := (others => '0');
 
   -- Clock period definitions 
   constant clk_period : time := 1 ns;
@@ -112,50 +112,9 @@ architecture behavior of RSA_512_tb is
 
     end procedure reset_circuit;
   
-  
-  --Sending and saving of encryption message (sends twice)
-  --using this procedure didn't work for some reason?
-  procedure encryption (message, exponent, modulo, r_c_in : in STD_LOGIC_VECTOR(511 downto 0);
-                        s         : in STD_LOGIC_VECTOR(15 downto 0);
-                        valid_out : in STD_LOGIC;
-                        signal x,y,m,r_c : out STD_LOGIC_VECTOR(15 downto 0);
-                        signal valid_in  : out STD_LOGIC;
-                        signal result    : out STD_LOGIC_VECTOR(511 downto 0)) is
-                        
-    --signal res : STD_LOGIC_VECTOR(511 downto 0) := (others => '0');
-    
-    begin
-    
- 
-
-           --send all 32 words
-           for J in 0 to 31 loop
-               valid_in <= '1';
-               x <= message(16*J+15 downto 16*J);
-               y <= exponent(16*J+15 downto 16*J);
-               m <= modulo(16*J+15 downto 16*J);
-               r_c <= r_c_in(16*J+15 downto 16*J);
-               wait for clk_period;
-           end loop;
-           valid_in <= '0';
-           wait until valid_out = '1';
-           
-           --read all 32 words
-           for J in 0 to 31 loop 
-               result(16*J+15 downto 16*J) <= s;
-               wait for clk_period;
-           end loop;
-           
-           wait for clk_period * 10;
-           wait for clk_period/2;
-return;    
-end procedure encryption;
-  
-  
 begin
 
-  -- Instantiate the Unit Under Test (UUT) 
-  uut : rsa_top port map (
+  RSA_512 : rsa_top port map (
     clk       => clk,
     reset     => reset,
     valid_in  => valid_in,
@@ -302,8 +261,8 @@ end process;
 
 process
 begin
-wait for 2 ms;
-report "It has gone way too long with the standard clock of 1ns! Make sure all the flags are being set correctly!"
+wait for 1 ms;
+report "It has gone way too long with the standard clock of 1ns! Make sure all the flags are being set correctly and that the memories are functional!"
 severity failure;
 end process;
 
