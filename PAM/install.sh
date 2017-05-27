@@ -1,6 +1,6 @@
 #!/bin/bash/
 
-#Copyright 2017 Eliot Roxbergh
+#Copyright 2017 Adam Fredriksson, Eliot Roxbergh
 #Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 #1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
 #2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
@@ -10,18 +10,18 @@
 
 su
 
-yum update; yum upgrade -y; yum install openssl-devel -y;
-#yum install libghc-pem-dev libgnutls-openssl openssl -y;
+yum update
+yum upgrade -y
+yum install openssl-devel -y
+yum install pam-devel.x86_64 -y
 
-#cd source
-#chmod u+x get_ready.sh
-#./get_ready.sh
-#cd ..
-cp etc/* /etc/ -Rv
+#yum install libghc-pem-dev libgnutls-openssl openssl -y;
+#cp etc/* /etc/ -Rv
+
+exit
 
 echo; echo; echo "##################"
 echo "IMPORTANT\!"
 echo "Choose the version to use and run its 'get_ready.sh'"
 echo "##################"; echo
 
-exit

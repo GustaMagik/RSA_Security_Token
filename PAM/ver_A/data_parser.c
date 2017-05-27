@@ -122,12 +122,6 @@ char* hexToAscii(unsigned char* input) {
 	free(input);
   randDataAscii[cleartextLen] = '\0';
   
-	/*
-	// ------- DEBUG -------
-	// printf("\nhexToAscii: %s\n",randDataAscii);
-	// ------- DEBUG -------
-	*/
-	
 	return randDataAscii;
 }
 
