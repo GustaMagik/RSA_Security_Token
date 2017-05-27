@@ -1,5 +1,5 @@
 # RSA_Security_Token
-A Security token system for Linux PAM using an FPGA. Utilizing up to 512-bit RSA cryptography and USB UART communication to provide two-factor authentication for any PAM-aware application. A fully working prototype, BSD-3 licenced.
+A Security token system for Linux PAM using an FPGA. Either utilizing up to 72-bit or up to 512-bit RSA cryptography when using Version A and B respectivly. Version B is also utilizing USB UART communication. These implementations provide two-factor authentication for any PAM-aware application. Fully working prototypes. BSD-3 licenced.
 
 HOW TO USE:
 
