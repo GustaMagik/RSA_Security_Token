@@ -18,42 +18,18 @@
 #include <unistd.h>
 #include "header.h"
 
-unsigned char* userInput_to_data(char* userInput){
-	char* userInput_clean  = strSanitizer(userInput);
-  char* userInput_binary = asciiToBin(userInput_clean);
-  unsigned char* userInput_data = binToChar(userInput_binary);
-	free(userInput);
-	free(userInput_clean);
-	free(userInput_binary);	
-	return userInput_data;
-}
-
-
-int check_userInput(char* ciphertext_user){
-	unsigned char* ciphertext_data = userInput_to_data(ciphertext_user);
-	const unsigned char* cleartext = public_decrypt(ciphertext_data);
-	free(ciphertext_data);
-
-	int result = verify_rsa(cleartext);
-
-	// const char*
-	free((char*) cleartext);
-	return(result);
-}
-
-
 /*
  * using global variables:
  *  static const int cleartextLen
- *  unsigned char randData_orig[(CLEARTEXT_LEN/2+1)];		
+ *  unsigned char randData_orig[(CLEARTEXT_LEN+1)];		
  */
 unsigned char* genNumber_raw(void) {
 	//half size cleartextLen since different data per printable char
 	//data (8bit) , hex (4bit) per visable char for user
-	unsigned char* randData  =  malloc(cleartextLen/2+1);
+	unsigned char* randData  =  malloc(cleartextLen+1);
 	
 	//randData fills with random data
-	while(RAND_bytes(randData, (cleartextLen/2)) != 1 ){
+	while(RAND_bytes(randData, (cleartextLen)) != 1 ){
 		//RAND_bytes failed (UNLIKELY!)
 		fprintf(stderr,"\nRandom data generation fail!\n");
 		sleep(1); //second
@@ -62,63 +38,29 @@ unsigned char* genNumber_raw(void) {
 	}
 
 	//null terminate
-	randData[cleartextLen/2] = '\0';
-	memcpy(randData_orig, randData, (cleartextLen/2+1));
+	randData[cleartextLen] = '\0';	
 	
-	return randData;
-}
-
-
-/*
- * using global variables:
- *  static const int cleartextLen
- */
-char* genNumber_hexStr(void){
-	//generate random data cleartextLen/2 long
-	unsigned char* randData = genNumber_raw();	
-
-	/* Reverse the bytestring bc FPGA mem handling */
-	reverseStr(randData);
-	randData[cleartextLen/2] = '\0';
-
-	/*
-	  Splits each byte in randData into 2 hex-numbers
-	*/
+	//by default cleartext 63 len out of 64 possible
+	// shift right one char, add 0 left-most
+	unsigned char *randDataShifted = malloc(cleartextLen+2);
+	randDataShifted[0] = 0;	
 	int i;
-	char byte;
-	unsigned char* randData_hex = malloc(cleartextLen+1);
-	for (i = 0; i < cleartextLen/2; i++) {
-	  byte = randData[i];
-	  randData_hex[i*2] = (byte & 0xF0) >> 4;
-		
-		if ( (i*2+1) == cleartextLen ) {
-			break; //perhaps unnecessary
-		}
-	  randData_hex[i*2+1] = (byte & 0x0F);
+	for (i = 0; i < cleartextLen+1; i++) {
+	  randDataShifted[i+1] = randData[i];
 	}
 
-	randData_hex[cleartextLen] = '\0';
 	free(randData);
-	/*
-	// ------- DEBUG -------
-	// hardcoded random string: ABC123
-	// Reversed: 23C1AB (each byte reversed)
-	//	tmpHexStr[0] = 2;
-	//	tmpHexStr[1] = 3;
-	//	tmpHexStr[2] = 12;
-	//	tmpHexStr[3] = 1;
-	//	tmpHexStr[4] = 10;
-	//	tmpHexStr[5] = 11;
-	// ------- DEBUG -------
-	*/
-	char* randDataHexStr = hexToAscii(randData_hex);
-	randDataHexStr[cleartextLen] = '\0';
 	
-	return randDataHexStr;
+	//not reversed, randData_orig used for local verify later
+	memcpy(randData_orig, randDataShifted, (cleartextLen+2));
+
+	//FPGA wants reversed
+	reverseStr(randDataShifted);
+	return randDataShifted;
 }
 
 unsigned char* reverseStr(unsigned char* input) {
-  int len = strlen((char*) input);
+  int len = cleartextLen+1;
   unsigned char temp;
   int i;
   for (i = 0; i < len/2; i++) {

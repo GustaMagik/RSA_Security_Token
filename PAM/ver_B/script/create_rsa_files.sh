@@ -4,13 +4,13 @@
 cd ../data
 
 #rsa key without padding
-openssl genrsa -out private.pem 72 -nopad
+openssl genrsa -out private512.pem 512 -nopad
 #echo "private OK"
-openssl rsa -in private.pem -out public.pem -outform PEM -pubout
+openssl rsa -in private512.pem -out public512.pem -outform PEM -pubout
 #echo "public OK"
 
 # convert public key from PKCS#8 -> PKCS#1 (RSA key)
-openssl rsa -pubin -in public.pem -RSAPublicKey_out -out public.pem
+openssl rsa -pubin -in public512.pem -RSAPublicKey_out -out public512.pem
 
 #openssl rsautl -sign -inkey private.pem -in input -out message.signed -raw
 #echo "encrypt OK"
@@ -18,7 +18,7 @@ openssl rsa -pubin -in public.pem -RSAPublicKey_out -out public.pem
 
 echo;echo
 # PEM to text for FPGA
-openssl rsa -text -in private.pem > private_key.txt
+openssl rsa -text -in private512.pem > private_key.txt
 cat private_key.txt
 
 cd ../script

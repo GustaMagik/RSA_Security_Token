@@ -39,10 +39,18 @@ static const int ciphertextLen = KEY_LEN_6BIT;
 // Amount of hex chars to generate (entered on 2-fa device)
 static const int cleartextLen = CLEARTEXT_LEN; // chars = bytes
  
-// Random hex generated (data 8bit not 4bit hex -> len/2)
+// Random data generated (data 8bit not 4bit hex -> len/2)
 // Checked by verify_rsa to ensure signed message is correct
-// Note: these are NOT printable characters
+// Note:
+// 		these are NOT printable characters
+// Note:
+// 		randData_orig (and cleartext_user) is not reversed,
+//  	unlike the hexStr (cleartext) seen by user
 unsigned char randData_orig[(CLEARTEXT_LEN/2+1)];
+
+
+
+
 // ----  DO NOT CHANGE ----------------------------------
 
 
