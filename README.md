@@ -29,9 +29,9 @@ Needed hardware:
 
 Minimum FPGA:
 
-Version A: Xilinx Spartan-6 XC6SLX16 or equivalent.
+	Version A: Xilinx Spartan-6 XC6SLX16 or equivalent.
 
-Version B: Xilinx Spartan-6 XC6SLX25 or equivalent.
+	Version B: Xilinx Spartan-6 XC6SLX25 or equivalent.
 
 
 Needed software: 
