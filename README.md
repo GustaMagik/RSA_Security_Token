@@ -6,19 +6,30 @@ HOW TO USE:
 VHDL Setup:
 
 Needed hardware:
+
 Hexadecimal keyboard with 4+4 interconnected row-column pins. 
+
 LCD display with the HD44780 controller or equivalent
+
 Sufficient FPGA for chosen design
 
+
 Minimum FPGA:
+
 Version A: Xilinx Spartan-6 XC6SLX16 or equivalent
+
 Version B: Xilinx Spartan-6 XC6SLX25 or equivalent
 
+
 Needed software: 
+
 Xilinx ISE or Xilinx Vivado
+
 GNU multiprecission library
 
+
 Setup:
+
 1. Open the Xilinx project file of the version that is going to be used
 
 1b. In the case of Version B, all BRAMs and FIFOs needed has to be either generated with Xilinx Core Generator or manually created. Instructions can be found in the report Appendix C.
@@ -46,6 +57,7 @@ This value can be calculated manually (use http://www.mobilefish.com/services/bi
 6. Create a programming file 
 
 7. Program your FPGA with the program
+
 
 Please note that if you intend on using this product in an actual use case that the locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
 
