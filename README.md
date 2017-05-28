@@ -83,3 +83,15 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 * The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
 
 * This project trusts (in someway): OpenSSL, PAM, Xilinx as well as the [RSA\_512 module](https://opencores.org/project,rsa_512). Keep this software updated / consider if the you trusts this software as well.
+
+* Remember to limit login attempts on the computer (doable in PAM config)
+
+* Use 2FA for everything when possible, remember this solution should work for any PAM-aware application (Samba, SSH, ..)
+
+### Additional Improvments
+* (See project\_report.pdf discussion)
+
+* To extend the length of the keys on version B the rsa\_512 module needs to be replaced. Moreover, the USB communication must be changed from 64B (512 bit) message data, accordingly.
+
+* Extending key length on version A is not advisable since user friendlyness. However, we had an idea to perform RSA multiple times with different keys to prevent attacks were only message transations are known.
+
