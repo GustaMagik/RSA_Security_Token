@@ -5,11 +5,14 @@ HOW TO USE:
 
 PAM Setup:
 
-Dependencies:
 
-	The dependencies can be found in install.sh.
+
+Quick Setup on RedHat/CentOS:
+	run install_pam_module.sh
 
 On RedHat/CentOS:
+
+	The dependencies can be found in install.sh.
 
 	The compiled module (pam_cthAuth.so) should be placed in /lib64/security. The compiled file should be included in the PAM configuration file (in /etc/pam.d/), for each application that should use the token.
 
@@ -38,7 +41,7 @@ Minimum FPGA:
 
 Needed software: 
 
-	Xilinx ISE or Xilinx Vivado.
+	Xilinx ISE or Xilinx Vivado. 
 
 	GNU multiprecission library (if using constant_gen.c).
 
@@ -73,11 +76,10 @@ Setup:
 
 7. Program your FPGA with the program
 
-
 Please note that if you intend on using this product in an actual use case that:
 
--  There are attack vectors, limitations and improvments mentioned in project\_report.pdf (discussion)
+	-  There are attack vectors, limitations and improvments mentioned in project\_report.pdf (discussion)
 
--  The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
+	-  The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
 
--	 This project trusts OpenSSL, PAM, Xilinx (or other software used for FPGA) as well as the RSA\_512 module (https://opencores.org/project,rsa\_512). Keep this software updated / consider if the you trusts this software as well.
+	-	 This project trusts OpenSSL, PAM, Xilinx (or other software used for FPGA) as well as the RSA\_512 module (https://opencores.org/project,rsa_512). Keep this software updated / consider if the you trusts this software as well.
