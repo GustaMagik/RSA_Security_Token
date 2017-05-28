@@ -78,8 +78,8 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 ### Please note that if you intend on using this product in an actual use case:
 
-	-	There are attack vectors, limitations and improvments mentioned in project\_report.pdf (discussion)
+* There are attack vectors, limitations and improvments mentioned in project\_report.pdf (discussion)
 
-	-	The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
+* The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
 
-	-	This project trusts (in someway): OpenSSL, PAM, Xilinx as well as the [RSA\_512 module](https://opencores.org/project,rsa_512). Keep this software updated / consider if the you trusts this software as well.
+* This project trusts (in someway): OpenSSL, PAM, Xilinx as well as the [RSA\_512 module](https://opencores.org/project,rsa_512). Keep this software updated / consider if the you trusts this software as well.
