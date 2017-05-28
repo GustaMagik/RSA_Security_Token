@@ -30,7 +30,7 @@ fi
 echo;echo
 read -p "Overwrite your PAM configs? (you might get locked out if not working) (Y/N) " -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-	# PAM config
+	# PAM config (login, lockscreen ..)
 	cp example_config/etc/pam.d /etc/ -Rv
 else
   echo "Not changing PAM configs"
@@ -58,9 +58,6 @@ fi
 echo;echo
 read -p "Do you want version B (USB) (Y/N) " -n 1 -r; echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-	# PAM config
-	cp example_config/etc/pam.d /etc/ -Rv
-
 	cd ver_B/script
 	./create_rsa_files.sh
 
