@@ -8,6 +8,7 @@ PAM Setup:
 
 
 Quick Setup on RedHat/CentOS:
+
 	run install_pam_module.sh
 
 On RedHat/CentOS:
