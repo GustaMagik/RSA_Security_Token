@@ -1,15 +1,15 @@
 # RSA_Security_Token
 A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 512-bit RSA cryptography when using Version A and B respectivly. Version B is utilizing USB UART communication, while version A is air-gapped. These implementations provide two-factor authentication for any PAM-aware application. Fully working prototypes. BSD-3 licenced.
 
-HOW TO USE:
+## HOW TO USE:
 
-PAM Setup:
+#### PAM Setup:
 
-Quick Setup on RedHat/CentOS:
+##### Quick Setup on RedHat/CentOS:
 
 	./install_pam_module.sh
 
-Recommended Setup RedHat/CentOS:
+##### Recommended Setup RedHat/CentOS:
 
 	The dependencies are installed by install.sh.
 
@@ -19,9 +19,9 @@ Recommended Setup RedHat/CentOS:
 	Example configuration files are included in this repository, e.g. system-auth.
 
 
-VHDL Setup:
+#### VHDL Setup:
 
-Needed hardware:
+##### Needed hardware:
 
 	Hexadecimal keyboard with 4+4 interconnected row-column pins. 
 
@@ -32,21 +32,21 @@ Needed hardware:
     UART-chip to interface the FPGA with (Usually on most dev-boards)
 
 
-Minimum FPGA:
+##### Minimum FPGA:
 
 	Version A: Xilinx Spartan-6 XC6SLX16 or equivalent.
 
 	Version B: Xilinx Spartan-6 XC6SLX25 or equivalent.
 
 
-Needed software: 
+##### Needed software: 
 
 	Xilinx ISE or Xilinx Vivado. (if not using Xilinx, at minimum Appendic B need to be done differently)
 
 	GNU multiprecision library (if using constant_gen.c).
 
 
-Setup:
+##### Setup:
 
 1. Open the Xilinx project file of the version that is going to be used
 
@@ -76,10 +76,10 @@ Setup:
 
 7. Program your FPGA with the program
 
-Please note that if you intend on using this product in an actual use case that:
+## Please note that if you intend on using this product in an actual use case that:
 
 	-  There are attack vectors, limitations and improvments mentioned in project\_report.pdf (discussion)
 
-	-  The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
+	-	 The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
 
 	-	 This project trusts (in someway): OpenSSL, PAM, Xilinx as well as the RSA\_512 module (https://opencores.org/project,rsa_512). Keep this software updated / consider if the you trusts this software as well.
