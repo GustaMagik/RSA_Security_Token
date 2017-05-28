@@ -5,17 +5,16 @@ HOW TO USE:
 
 PAM Setup:
 
-
-
 Quick Setup on RedHat/CentOS:
 
-	run install_pam_module.sh
+	./install_pam_module.sh
 
-On RedHat/CentOS:
+Recommended Setup RedHat/CentOS:
 
-	The dependencies can be found in install.sh.
+	The dependencies are installed by install.sh.
 
-	The compiled module (pam_cthAuth.so) should be placed in /lib64/security. The compiled file should be included in the PAM configuration file (in /etc/pam.d/), for each application that should use the token.
+	The compiled module (pam_cthAuth.so) should be placed in (atleast in our 64-bit OS) /lib64/security.
+	The compiled file should be included in the PAM configuration file (in /etc/pam.d/), for each application that should use the token.
 
 	Example configuration files are included in this repository, e.g. system-auth.
 
@@ -42,16 +41,16 @@ Minimum FPGA:
 
 Needed software: 
 
-	Xilinx ISE or Xilinx Vivado. 
+	Xilinx ISE or Xilinx Vivado. (if not using Xilinx, at minimum Appendic B need to be done differently)
 
-	GNU multiprecission library (if using constant_gen.c).
+	GNU multiprecision library (if using constant_gen.c).
 
 
 Setup:
 
 1. Open the Xilinx project file of the version that is going to be used
 
-	1b. In the case of Version B, all BRAMs and FIFOs needed has to be either generated with Xilinx Core Generator or manually created. Instructions can be found in the report Appendix C.
+	1b. In the case of Version B, all BRAMs and FIFOs needed has to be either generated with Xilinx Core Generator or manually created. Instructions can be found in the report Appendix B.
 
 2. Use the script create_rsa_files.sh to generate your keys. If you have already done this in the setup of the software side, skip this step.
 
@@ -83,4 +82,4 @@ Please note that if you intend on using this product in an actual use case that:
 
 	-  The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
 
-	-	 This project trusts OpenSSL, PAM, Xilinx (or other software used for FPGA) as well as the RSA\_512 module (https://opencores.org/project,rsa_512). Keep this software updated / consider if the you trusts this software as well.
+	-	 This project trusts (in someway): OpenSSL, PAM, Xilinx as well as the RSA\_512 module (https://opencores.org/project,rsa_512). Keep this software updated / consider if the you trusts this software as well.
