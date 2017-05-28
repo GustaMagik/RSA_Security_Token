@@ -3,7 +3,7 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 ## HOW TO USE:
 
-#### PAM Setup:
+### PAM Setup:
 
 ##### Quick Setup on RedHat/CentOS:
 
@@ -19,7 +19,7 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 	Example configuration files are included in this repository, e.g. system-auth.
 
 
-#### VHDL Setup:
+### VHDL Setup:
 
 ##### Needed hardware:
 
@@ -76,7 +76,7 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 7. Program your FPGA with the program
 
-## Please note that if you intend on using this product in an actual use case that:
+### Please note that if you intend on using this product in an actual use case:
 
 	-  There are attack vectors, limitations and improvments mentioned in project\_report.pdf (discussion)
 
