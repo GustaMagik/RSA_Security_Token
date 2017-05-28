@@ -74,5 +74,10 @@ Setup:
 7. Program your FPGA with the program
 
 
-Please note that if you intend on using this product in an actual use case that the locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
+Please note that if you intend on using this product in an actual use case that:
 
+-  There are attack vectors, limitations and improvments mentioned in project\_report.pdf (discussion)
+
+-  The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
+
+-	 This project trusts OpenSSL, PAM, Xilinx (or other software used for FPGA) as well as the RSA\_512 module (https://opencores.org/project,rsa\_512). Keep this software updated / consider if the you trusts this software as well.
