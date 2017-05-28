@@ -66,7 +66,7 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 	This value can be calculated manually (use http://www.mobilefish.com/services/big_number_equation/big_number_equation.php) or the C program constant_gen.c located at RSA_Security_Token\VHDL_code\Version_B\RSA_Security_Token_USB_Version\rsa_512\trunk\src can be used. 
 
-	3c. In the case of Version B, it is recommended that the RSA keys and R_C values are tested with the included test bench RSA_512_tb. Note that you will have to manually calculate what the result of signing the message with your chosen keyes should be (use http://www.mobilefish.com/services/big_number_equation/big_number_equation.php) for the self-test functionallity to work correctly in stage 2
+	3c. In the case of Version B, it is recommended that the RSA keys and R_C values are tested with the included test bench RSA_512_tb. Note that you will have to manually calculate what the result of signing the message with your chosen keys should be (use http://www.mobilefish.com/services/big_number_equation/big_number_equation.php) for the self-test functionallity to work correctly in stage 2
 
 4. Set up other misc. generics to your specific needs
 
@@ -78,8 +78,8 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 ### Please note that if you intend on using this product in an actual use case:
 
-	-  There are attack vectors, limitations and improvments mentioned in project\_report.pdf (discussion)
+	-	There are attack vectors, limitations and improvments mentioned in project\_report.pdf (discussion)
 
-	-	 The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
+	-	The locking functionallity after max tries of PIN is NOT saved after reloading the program (hard reset if programming file is put as a program-on-startup file in FLASH).
 
-	-	 This project trusts (in someway): OpenSSL, PAM, Xilinx as well as the RSA\_512 module (https://opencores.org/project,rsa_512). Keep this software updated / consider if the you trusts this software as well.
+	-	This project trusts (in someway): OpenSSL, PAM, Xilinx as well as the [RSA\_512 module](https://opencores.org/project,rsa_512). Keep this software updated / consider if the you trusts this software as well.
