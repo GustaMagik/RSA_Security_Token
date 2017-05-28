@@ -19,7 +19,7 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 	Example configuration files are included in this repository, e.g. system-auth.
 
 
-### VHDL Setup:
+### FPGA Setup:
 
 ##### Needed hardware:
 
