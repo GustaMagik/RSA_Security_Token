@@ -100,3 +100,5 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 * Instead of USB or writing the ciphertext other methods are possible such as QR-code, (EM-transfer?), sound or light (diodes). Thus, enabling for longer keys (and consequently ciphertexts) compared to ver_A while being air-gapped.
 
 * Perhaps other ciphers can provide longer keys without the need for longer ciphertext? Nevertheless, quantum-safe ciphers would be cool.
+
+* Other HDLs could be used (instead of VHDL) to enable faster development, one example is [CλaSH](http://www.clash-lang.org) - a language like Haskell, which compiles to Verilog.
