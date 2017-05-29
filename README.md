@@ -31,7 +31,7 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 	Sufficient FPGA for chosen design.
     
-    UART-chip to interface the FPGA with (Usually on most dev-boards)
+    	UART-chip to interface the FPGA with (Usually on most dev-boards)
 
 
 ##### Minimum FPGA:
@@ -88,12 +88,12 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 * Remember to limit login attempts on the computer (doable in PAM config)
 
-* Use 2FA for everything when possible, remember this solution should work for any PAM-aware application (Samba, SSH, ..)
+* Use 2FA for everything when possible, this solution should work for any PAM-aware application (Samba, SSH, ..)
 
 ### Additional Improvments
 * (See project\_report.pdf discussion)
 
-* No padding is used which should (?) be fixed when ciphertext length is of not issue (e.g. version B). Needs some VHDL code to parse padding 
+* No padding is used which should (?) be fixed when ciphertext length is of no issue (e.g. version B). Would need some VHDL code to parse padding 
 
 * To extend the length of the keys on version B the rsa\_512 module needs to be replaced. Moreover, the USB communication must be changed from 64B (512 bit) message data, accordingly.
 
