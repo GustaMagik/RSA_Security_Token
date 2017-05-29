@@ -95,3 +95,10 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 * Extending key length on version A is not advisable since user friendlyness. However, we had an idea to perform RSA multiple times with different keys to prevent attacks were only message transations are known.
 
+* Note the cleartext is not secret, but there are two requirements: should be dynamic to create new ciphertexts (TO PREVENT REPLAY-ATTACKS), and must be known to both token and computer for sign/verify. Thus it should be possible to use other data - such as time - to skip one step for the user.
+
+* Instead of USB or writing the ciphertext other methods are possible such as QR-code, (EM-transfer?), sound or light (diodes). Thus, enabling for longer keys (and consequently ciphertexts) compared to ver_A while being air-gapped.
+
+* Perhaps other ciphers can provide longer keys without the need for longer ciphertext? Nevertheless, quantum-safe ciphers would be cool.
+
+* Other HDLs could be used (instead of VHDL) to enable faster development, one example is [CλaSH](http://www.clash-lang.org) - a language like Haskell, which compiles to Verilog or VHDL.
