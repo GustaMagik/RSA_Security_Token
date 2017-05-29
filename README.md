@@ -93,6 +93,8 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 ### Additional Improvments
 * (See project\_report.pdf discussion)
 
+* No padding is used which should (?) be fixed when ciphertext length is of not issue (e.g. version B). Needs some VHDL code to parse padding 
+
 * To extend the length of the keys on version B the rsa\_512 module needs to be replaced. Moreover, the USB communication must be changed from 64B (512 bit) message data, accordingly.
 
 * Extending key length on version A is not advisable since user friendlyness. However, we had an idea to perform RSA multiple times with different keys to prevent attacks were only message transations are known.
