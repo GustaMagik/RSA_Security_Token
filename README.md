@@ -31,7 +31,7 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 	Sufficient FPGA for chosen design.
     
-    	UART-chip to interface the FPGA with (Usually on most dev-boards)
+	UART-chip to interface the FPGA with (Usually on most dev-boards)
 
 
 ##### Minimum FPGA:
