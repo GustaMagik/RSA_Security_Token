@@ -101,4 +101,4 @@ A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 
 
 * Perhaps other ciphers can provide longer keys without the need for longer ciphertext? Nevertheless, quantum-safe ciphers would be cool.
 
-* Other HDLs could be used (instead of VHDL) to enable faster development, one example is [CλaSH](http://www.clash-lang.org) - a language like Haskell, which compiles to Verilog.
+* Other HDLs could be used (instead of VHDL) to enable faster development, one example is [CλaSH](http://www.clash-lang.org) - a language like Haskell, which compiles to Verilog or VHDL.
