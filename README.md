@@ -1,7 +1,7 @@
 ###### Keywords: Two-factor, Authentication, Security, Token, Open source, FPGA, PAM, RSA, Linux, VHDL
 
 # RSA_Security_Token
-A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 512-bit RSA cryptography when using Version A and B respectivly. Version B is utilizing USB UART communication, while version A is air-gapped. These implementations provide two-factor authentication for any PAM-aware application. Fully working prototypes. BSD-3 licensed.
+A Security token system for Linux PAM using an FPGA. Either utilizing 72-bit or 512-bit RSA cryptography when using Version A and B respectively. Version B is utilizing USB UART communication, while version A is air-gapped. These implementations provide two-factor authentication for any PAM-aware application. Fully working prototypes. BSD-3 licensed.
 
 ## HOW TO USE:
 
